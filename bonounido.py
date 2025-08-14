@@ -11,6 +11,17 @@ import tempfile
 st.set_page_config(page_title="Comparadores Financieros 💲", layout="wide")
 st.title("💲 Comparadores Financieros PDF vs CSV")
 
+# 🔐 Protección con contraseña
+def verificar_acceso():
+    st.sidebar.header("🔒 Acceso restringido")
+    password = st.sidebar.text_input("Ingresa la contraseña", type="password")
+    return password == "miclave123"  # Cambia esto por tu clave
+
+if not verificar_acceso():
+    st.warning("🔐 Esta aplicación está protegida. Ingresa la contraseña en la barra lateral.")
+    st.stop()
+
+
 # 🗂️ Pestañas principales
 tab_acciones_es, tab_acciones_en, tab_bono_es, tab_bono_en = st.tabs([
     "🇪🇸 Acciones Español", "🇺🇸 Stock Compare", "🇪🇸 Bono Diferido", "🇺🇸 Deferred Bonus"
@@ -463,3 +474,4 @@ with tab_bono_en:
     pdf_files_bono_en = st.file_uploader("📥 Upload your PDF files", type=["pdf"], accept_multiple_files=True, key="pdf_bono_en")
     if csv_file_bono_en and pdf_files_bono_en:
         comparar_bono_en(csv_file_bono_en, pdf_files_bono_en, columnas_bono_en)
+
