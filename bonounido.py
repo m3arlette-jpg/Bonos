@@ -8,8 +8,18 @@ from openpyxl.styles import PatternFill
 import tempfile
 
 # 🎨 Configuración inicial
-st.set_page_config(page_title="Comparadores Financieros 💲", layout="wide")
-st.title("💲 Comparadores Financieros PDF vs CSV")
+st.set_page_config(page_title="VALIDACION DE CARTAS VEAB💲", layout="wide")
+# 🖼️ Favicon personalizado
+favicon_url = "https://i.pinimg.com/474x/85/75/02/85750251513131f033ccadb1ee162581.jpg"
+st.markdown(
+    f"""
+    <head>
+        <link rel="shortcut icon" href="{favicon_url}">
+    </head>
+    """,
+    unsafe_allow_html=True
+)
+st.title("💲 VALIDACION DE CARTAS VEAB PDF vs CSV")
 
 # 🔐 Protección con contraseña
 def verificar_acceso():
@@ -24,13 +34,13 @@ if not verificar_acceso():
 
 # 🗂️ Pestañas principales
 tab_acciones_es, tab_acciones_en, tab_bono_es, tab_bono_en = st.tabs([
-    "🇪🇸 Acciones Español", "🇺🇸 Stock Compare", "🇪🇸 Bono Diferido", "🇺🇸 Deferred Bonus"
+    "🇪🇸 Acciones", "🇺🇸 Virtual Shares", "🇪🇸 Bono Diferido", "🇺🇸 Deferred Bonus"
 ])
 
 # ─────────────────────────────────────────────────────────────
 # 🇪🇸 Comparador de Acciones Español
 with tab_acciones_es:
-    st.header("📂 Comparador de Acciones (Español)")
+    st.header("📂 Acciones")
 
     def limpiar_es(valor):
         return str(valor).replace(",", "").replace("\xa0", "").replace("\u200b", "").replace(" ", "").replace("%", "").strip()
@@ -140,7 +150,7 @@ with tab_acciones_es:
 # ─────────────────────────────────────────────────────────────
 # 🇺🇸 Comparador de Acciones Inglés
 with tab_acciones_en:
-    st.header("📂 Stock Comparator (English)")
+    st.header("📂 Virtual Shares")
 
     def limpiar_en(valor):
         return str(valor).replace(",", "").replace("\xa0", "").replace("\u200b", "").replace(" ", "").replace("%", "").strip()
@@ -251,7 +261,7 @@ with tab_acciones_en:
 # ─────────────────────────────────────────────────────────────
 # 🇪🇸 Comparador Bono Diferido Español
 with tab_bono_es:
-    st.header("📂 Comparador Bono Diferido Español")
+    st.header("📂 Bono Diferido")
 
     def limpiar_bono_es(valor):
         return str(valor).replace(",", "").replace("\xa0", "").replace("\u200b", "").replace(" ", "").replace("%", "").strip()
@@ -364,7 +374,7 @@ with tab_bono_es:
 # ─────────────────────────────────────────────────────────────
 # 🇺🇸 Comparador Bono Diferido Inglés
 with tab_bono_en:
-    st.header("📂 Deferred Bonus Comparator (English)")
+    st.header("📂 Deferred Bonus")
 
     def limpiar_bono_en(valor):
         return str(valor).replace(",", "").replace("\xa0", "").replace("\u200b", "").replace(" ", "").replace("%", "").strip()
@@ -474,4 +484,5 @@ with tab_bono_en:
     pdf_files_bono_en = st.file_uploader("📥 Upload your PDF files", type=["pdf"], accept_multiple_files=True, key="pdf_bono_en")
     if csv_file_bono_en and pdf_files_bono_en:
         comparar_bono_en(csv_file_bono_en, pdf_files_bono_en, columnas_bono_en)
+
 
