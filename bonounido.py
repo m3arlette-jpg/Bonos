@@ -8,18 +8,34 @@ from openpyxl.styles import PatternFill
 import tempfile
 
 # 🎨 Configuración inicial
-st.set_page_config(page_title="VALIDACION DE CARTAS VEAB💲", layout="wide")
-# 🖼️ Favicon personalizado
-favicon_url = "https://i.pinimg.com/474x/85/75/02/85750251513131f033ccadb1ee162581.jpg"
+st.set_page_config(
+    page_title="VALIDACION DE CARTAS VEAB💲",
+    page_icon="https://i.pinimg.com/474x/85/75/02/85750251513131f033ccadb1ee162581.jpg",
+    layout="wide"
+)
 st.markdown(
-    f"""
-    <head>
-        <link rel="shortcut icon" href="{favicon_url}">
-    </head>
+    """
+    <style>
+        .stApp {
+            background-color: #263576;
+        }
+    </style>
     """,
     unsafe_allow_html=True
 )
+
+
 st.title("💲 VALIDACION DE CARTAS VEAB PDF vs CSV")
+st.markdown(
+    """
+    <div style='text-align: center'>
+        <img src='https://i.pinimg.com/originals/8f/b7/bd/8fb7bdb708916be41b4789bdad9c27cb.gif' width='150'/>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
 
 # 🔐 Protección con contraseña
 def verificar_acceso():
@@ -484,5 +500,4 @@ with tab_bono_en:
     pdf_files_bono_en = st.file_uploader("📥 Upload your PDF files", type=["pdf"], accept_multiple_files=True, key="pdf_bono_en")
     if csv_file_bono_en and pdf_files_bono_en:
         comparar_bono_en(csv_file_bono_en, pdf_files_bono_en, columnas_bono_en)
-
 
