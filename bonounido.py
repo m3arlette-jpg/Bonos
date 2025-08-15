@@ -153,6 +153,30 @@ with tab_acciones_es:
         else:
             st.warning("⚠️ No se encontraron coincidencias válidas entre los PDFs y los nombres del CSV.")
 
+        # 💾 Botón para exportar Excel con errores marcados
+        if st.button("📥 Generar Excel con errores resaltados", key="descargar_acciones_es"):
+            if procesados:
+                export_df = df.loc[procesados].copy()
+                export_df["Origen PDF"] = iconos_df.loc[procesados]["Origen PDF"]
+                export_df["Notas"] = iconos_df.loc[procesados]["Notas"]
+                with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as tmp:
+                    ruta_excel = tmp.name
+                    export_df.to_excel(ruta_excel, index=False)
+                    wb = load_workbook(ruta_excel)
+                    ws = wb.active
+                    red_fill = PatternFill(start_color="FF9999", end_color="FF9999", fill_type="solid")
+                    for idx in errores_por_fila:
+                        excel_row = list(procesados).index(idx) + 2  # +2 por encabezado
+                        for col in errores_por_fila[idx]:
+                            col_idx = list(export_df.columns).index(col) + 1
+                            ws.cell(row=excel_row, column=col_idx).fill = red_fill
+                    wb.save(ruta_excel)
+                with open(ruta_excel, "rb") as f:
+                    st.download_button("📥 Descargar comaparacion_accionesESP.xlsx", f, file_name="comaparacion_accionesESP.xlsx")
+            else:
+                st.error("⚠️ No hay filas válidas para exportar.")
+    
+
     columnas_acciones_es = ['Nombre', 'Acciones', 'Factor financiero', 'Target', 'Salario Diario', 'Acciones MXN']
     csv_file_es = st.file_uploader("📂 Sube tu archivo CSV", type=["csv"], key="csv_acciones_es")
     pdf_files_es = st.file_uploader("📥 Sube tus archivos PDF", type=["pdf"], accept_multiple_files=True, key="pdf_acciones_es")
@@ -263,6 +287,30 @@ with tab_acciones_en:
             st.dataframe(iconos_filtrados.style.apply(resaltar, axis=1), use_container_width=True)
         else:
             st.warning("⚠️ No valid matches found between PDFs and CSV names.")
+
+
+        # 💾 Botón para exportar Excel con errores marcados
+        if st.button("📥 Create Excel", key="descargar_acciones_ING"):
+            if procesados:
+                export_df = df.loc[procesados].copy()
+                export_df["PDF SOURCE"] = iconos_df.loc[procesados]["PDF SOURCE"]
+                export_df["NOTES"] = iconos_df.loc[procesados]["NOTES"]
+                with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as tmp:
+                    ruta_excel = tmp.name
+                    export_df.to_excel(ruta_excel, index=False)
+                    wb = load_workbook(ruta_excel)
+                    ws = wb.active
+                    red_fill = PatternFill(start_color="FF9999", end_color="FF9999", fill_type="solid")
+                    for idx in errores_por_fila:
+                        excel_row = list(procesados).index(idx) + 2  # +2 por encabezado
+                        for col in errores_por_fila[idx]:
+                            col_idx = list(export_df.columns).index(col) + 1
+                            ws.cell(row=excel_row, column=col_idx).fill = red_fill
+                    wb.save(ruta_excel)
+                with open(ruta_excel, "rb") as f:
+                    st.download_button("📥 Download Compare_VirtualShares.xlsx", f, file_name="Compare_VirtualShares.xlsx")
+            else:
+                st.error("⚠️ No hay filas válidas para exportar.")    
 
     columnas_acciones_en = ['NAME', 'VIRTUAL SHARES', 'FINANCIAL FACTOR', 'TARGET BONUS', 'ANNUAL SALARY', 'VIRTUAL SHARES MXN']
     csv_file_en = st.file_uploader("📂 Upload your CSV file", type=["csv"], key="csv_acciones_en")
@@ -381,6 +429,31 @@ with tab_bono_es:
         else:
             st.warning("⚠️ No se encontraron coincidencias válidas entre los PDFs y los nombres del CSV.")
 
+
+        # 💾 Botón para exportar Excel con errores marcados
+        if st.button("📥 Generar Excel con errores resaltados", key="descargar_bono_es"):
+            if procesados:
+                export_df = df.loc[procesados].copy()
+                export_df["ORIGEN PDF"] = iconos_df.loc[procesados]["ORIGEN PDF"]
+                export_df["NOTAS"] = iconos_df.loc[procesados]["NOTAS"]
+                with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as tmp:
+                    ruta_excel = tmp.name
+                    export_df.to_excel(ruta_excel, index=False)
+                    wb = load_workbook(ruta_excel)
+                    ws = wb.active
+                    red_fill = PatternFill(start_color="FF9999", end_color="FF9999", fill_type="solid")
+                    for idx in errores_por_fila:
+                        excel_row = list(procesados).index(idx) + 2  # +2 por encabezado
+                        for col in errores_por_fila[idx]:
+                            col_idx = list(export_df.columns).index(col) + 1
+                            ws.cell(row=excel_row, column=col_idx).fill = red_fill
+                    wb.save(ruta_excel)
+                with open(ruta_excel, "rb") as f:
+                    st.download_button("📥 Descargar comaparacion_bonoESP.xlsx", f, file_name="comaparacion_bonoESP.xlsx")
+            else:
+                st.error("⚠️ No hay filas válidas para exportar.")
+        
+
     columnas_bono_es = ['NOMBRE', 'BONO DIFERIDO', 'FACTOR FINANCIERO', 'DIAS BONO', 'SALARIO DIARIO']
     csv_file_bono_es = st.file_uploader("📂 Sube tu archivo CSV", type=["csv"], key="csv_bono_es")
     pdf_files_bono_es = st.file_uploader("📥 Sube tus PDFs", type=["pdf"], accept_multiple_files=True, key="pdf_bono_es")
@@ -494,6 +567,30 @@ with tab_bono_en:
             st.dataframe(iconos_filtrados.style.apply(resaltar, axis=1), use_container_width=True)
         else:
             st.warning("⚠️ No valid matches found between PDFs and CSV names.")
+
+        # 💾 Botón para exportar Excel con errores marcados
+        if st.button("📥 Create Excel", key="descargar_bono_ING"):
+            if procesados:
+                export_df = df.loc[procesados].copy()
+                export_df["PDF SOURCE"] = iconos_df.loc[procesados]["PDF SOURCE"]
+                export_df["NOTES"] = iconos_df.loc[procesados]["NOTES"]
+                with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as tmp:
+                    ruta_excel = tmp.name
+                    export_df.to_excel(ruta_excel, index=False)
+                    wb = load_workbook(ruta_excel)
+                    ws = wb.active
+                    red_fill = PatternFill(start_color="FF9999", end_color="FF9999", fill_type="solid")
+                    for idx in errores_por_fila:
+                        excel_row = list(procesados).index(idx) + 2  # +2 por encabezado
+                        for col in errores_por_fila[idx]:
+                            col_idx = list(export_df.columns).index(col) + 1
+                            ws.cell(row=excel_row, column=col_idx).fill = red_fill
+                    wb.save(ruta_excel)
+                with open(ruta_excel, "rb") as f:
+                    st.download_button("📥 Download Compare_DeferredBonus.xlsx", f, file_name="Compare_DeferredBonus.xlsx")
+            else:
+                st.error("⚠️ No hay filas válidas para exportar.") 
+
 
     columnas_bono_en = ['NAME', 'DEFERRED BONUS', 'FINANCIAL FACTOR', 'TARGET BONUS', 'ANNUAL SALARY']
     csv_file_bono_en = st.file_uploader("📂 Upload your CSV file", type=["csv"], key="csv_bono_en")
